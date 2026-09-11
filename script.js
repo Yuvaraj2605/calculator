@@ -1,0 +1,64 @@
+const calculation = document.querySelector(".calculation");
+const oprBtn = document.querySelectorAll(".oprBtn");
+const numBtn = document.querySelectorAll(".numBtn");
+
+let number = "";
+
+// Descimal Function
+function addDecimal() {
+  // current number find karo
+  let currentNumber = calculation.innerText.split(/[+/*%-]/).pop();
+  // agar current number meiin decimal nahi ha
+  if (!currentNumber.includes(".")) {
+    number += ".";
+    calculation.innerText = number;
+  }
+}
+
+numBtn.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    number += btn.innerText;
+    calculation.innerText = number;
+  });
+});
+
+// Yha maine Operatin button ke liye function bnaya hai
+oprBtn.forEach((opp) => {
+  opp.addEventListener("click", () => {
+    if (number == "") {
+      return;
+    }
+
+    let operationCheck = calculation.innerText.slice(-1);
+    if ("+-/*%".includes(operationCheck)) {
+      return;
+    }
+
+    number += opp.innerText;
+    calculation.innerText = number;
+  });
+});
+
+document.getElementById("equalBtn").addEventListener("click", () => {
+  number = eval(number);
+  calculation.innerText = number;
+});
+
+// all clear data from calculation
+document.getElementById("clear").addEventListener("click", () => {
+  calculation.innerText = "0";
+  number = "";
+});
+
+// Delete Button function
+document.getElementById("delete").addEventListener("click", () => {
+  let delChar = calculation.innerText.slice(0, -1);
+  number = delChar;
+  calculation.innerText = number;
+
+  if(delChar.length == "0"){
+      calculation.innerText = "0";
+      number = "";
+  }
+  
+});
